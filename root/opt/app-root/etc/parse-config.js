@@ -23,6 +23,18 @@ module.exports = {
         production: process.env.IOS_PRODUCTION_MODE || false,
       }
     } : {},
-    verbose: false
+    verbose: false,
+    verifyUserEmails: (process.env.VERIFY_USER_EMAILS === "true") ? true : false,
+    emailAdapter: (process.env.VERIFY_USER_EMAILS === "true") ? {
+      module: process.env.EMAIL_ADAPTER,
+      options: {
+        fromAddress: process.env.EMAIL_FROM_ADDRESS,
+        user: process.env.SMTP_USERNAME,
+        password: process.env.SMTP_PASSWORD,
+        host: process.env.SMTP_HOST,
+        isSSL: (process.env.SMTP_SSL === "true") ? true : false,
+        port: process.env.SMTP_PORT,
+        templates: process.env.EMAIL_TEMPLATES || {}
+      }
+    } : undefined
   }
-  

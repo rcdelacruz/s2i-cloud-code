@@ -69,12 +69,15 @@ COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 # Copy extra files to the image.
 COPY ./root/ /
 COPY ./root/opt/app-root/etc/parse-config.js ${APP_ROOT}/src
+COPY ./root/opt/app-root/etc/send-mail.js ${APP_ROOT}/src/cloud
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN chown -R 1001:0 ${APP_ROOT} && chmod -R ug+rwx ${APP_ROOT} && \
     rpm-file-permissions
 
 USER 1001
+
+RUN sed -i '1s/^/require(".\/send-mail");\n/' ${APP_ROOT}/src/cloud/main.js 
 
 # Set the default CMD to print the usage of the language image
 CMD $STI_SCRIPTS_PATH/usage
