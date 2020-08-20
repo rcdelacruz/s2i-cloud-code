@@ -70,6 +70,7 @@ COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 COPY ./root/ /
 COPY ./root/opt/app-root/etc/parse-config.js ${APP_ROOT}/src
 COPY ./root/opt/app-root/etc/send-mail.js ${APP_ROOT}/src/cloud
+COPY ./root/opt/app-root/etc/adapter.js ${APP_ROOT}/src/cloud
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN chown -R 1001:0 ${APP_ROOT} && chmod -R ug+rwx ${APP_ROOT} && \
