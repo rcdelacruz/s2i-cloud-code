@@ -24,8 +24,7 @@ module.exports = {
       }
     } : {},
     verbose: false,
-    verifyUserEmails: (process.env.VERIFY_USER_EMAILS === "true") ? true : false,
-    emailAdapter: (process.env.VERIFY_USER_EMAILS === "true") ? {
+    emailAdapter: {
       module: process.env.EMAIL_ADAPTER,
       options: {
         fromAddress: process.env.EMAIL_FROM_ADDRESS,
@@ -36,5 +35,5 @@ module.exports = {
         port: process.env.SMTP_PORT,
         templates: process.env.EMAIL_TEMPLATES || {}
       }
-    } : undefined
+    } 
   }
