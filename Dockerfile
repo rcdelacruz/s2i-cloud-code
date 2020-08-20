@@ -69,6 +69,7 @@ COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 # Copy extra files to the image.
 COPY ./root/ /
 COPY ./root/opt/app-root/etc/parse-config.js ${APP_ROOT}/src
+RUN sh ./root/opt/app-root/etc/post-script.sh
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN chown -R 1001:0 ${APP_ROOT} && chmod -R ug+rwx ${APP_ROOT} && \
