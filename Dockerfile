@@ -59,8 +59,8 @@ RUN yum -y module reset nodejs && yum -y module enable nodejs:$NODEJS_VERSION &&
 
 # Install OpenShift CLI tool
  RUN wget https://github.com/openshift/okd/releases/download/4.5.0-0.okd-2020-09-04-180756/openshift-client-linux-4.5.0-0.okd-2020-09-04-180756.tar.gz && \
-     tar xf openshift-client-linux-4.5.0-0.okd-2020-09-04-180756.tar.gz && \
-     ln -s $(pwd)/openshift-client-linux-4.5.0-0.okd-2020-09-04-180756/oc /usr/bin/oc 
+     tar -xf openshift-client-linux-4.5.0-0.okd-2020-09-04-180756.tar.gz && \
+     ln -s $(pwd)/oc /usr/bin/oc 
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
