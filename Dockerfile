@@ -41,6 +41,7 @@ RUN set -x && \
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
+COPY ./s2i/bin/ /usr/libexec/s2i
 
 # Copy extra files to the image.
 COPY ./root/ /
