@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi8/s2i-base
+FROM node:lts
 
 # This image provides a Node.JS environment you can use to run your Node.JS
 # applications.
@@ -24,11 +24,11 @@ ENV NODEJS_VERSION=14 \
 
 ENV SUMMARY="Platform for building and running Node.js $NODEJS_VERSION applications" \
     DESCRIPTION="Node.js $NODEJS_VERSION available as container is a base platform for \
-building and running various Node.js $NODEJS_VERSION applications and frameworks. \
-Node.js is a platform built on Chrome's JavaScript runtime for easily building \
-fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model \
-that makes it lightweight and efficient, perfect for data-intensive real-time applications \
-that run across distributed devices."
+    building and running various Node.js $NODEJS_VERSION applications and frameworks. \
+    Node.js is a platform built on Chrome's JavaScript runtime for easily building \
+    fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model \
+    that makes it lightweight and efficient, perfect for data-intensive real-time applications \
+    that run across distributed devices."
 
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
@@ -59,20 +59,20 @@ RUN yum -y module enable nodejs:$NODEJS_VERSION && \
     yum -y clean all --enablerepo='*'
     
 # Install OpenShift CLI tool
- RUN wget https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2021-01-23-132511/openshift-client-linux-4.6.0-0.okd-2021-01-23-132511.tar.gz && \
+RUN wget https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2021-01-23-132511/openshift-client-linux-4.6.0-0.okd-2021-01-23-132511.tar.gz && \
      tar -xf openshift-client-linux-4.5.0-0.okd-2020-09-04-180756.tar.gz && \
      ln -s $(pwd)/oc /usr/bin/oc 
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
+COPY ./s2i/bin/ /usr/libexec/s2i
 
 # Copy extra files to the image.
 COPY ./root/ /
 # COPY ./root/opt/app-root/etc/parse-config.js ${APP_ROOT}/src
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
-RUN chown -R 1001:0 ${APP_ROOT} && chmod -R ug+rwx ${APP_ROOT} && \
-    rpm-file-permissions
+RUN chown -R 1001:0 ${APP_ROOT} && chmod -R ug+rwx ${APP_ROOT} 
 
 USER 1001
 
