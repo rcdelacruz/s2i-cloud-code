@@ -16,7 +16,7 @@ EXPOSE 8080
 # Expose ports:
 # * 8080 - Unprivileged port used by nodejs application
 
-ENV NODEJS_VERSION=12 \
+ENV NODEJS_VERSION=14 \
     NPM_RUN=start \
     NAME=nodejs \
     NPM_CONFIG_PREFIX=$HOME/.npm-global \
@@ -33,11 +33,10 @@ ENV SUMMARY="Platform for building and running Node.js $NODEJS_VERSION applicati
     that run across distributed devices."
 
 # install the oc client tools
-RUN set -x && \
-    curl -fSL "https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2021-01-23-132511/openshift-client-linux-4.6.0-0.okd-2021-01-23-132511.tar.gz" -o /tmp/release.tar.gz && \
-    tar -xzvf /tmp/release.tar.gz -C /tmp/ && \
-    mv /tmp/oc /usr/local/bin/ && \
-    rm -rf /tmp/*
+RUN wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz && \
+    tar -xf openshift-client-linux.tar.gz && \
+    ln -s $(pwd)/oc /usr/bin/oc 
+
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
